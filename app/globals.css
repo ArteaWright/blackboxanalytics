@@ -1,0 +1,28 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --home_background: url("/the_office.png");
+  --home_background_nighttime: url("/the_office_nighttime.png");
+  --home_background_morning: url("/the_office_morning.png");
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ededed;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--home_background) no-repeat center center fixed;
+  background-size: cover;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "blackboxanalytics",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "create-component": "node scripts/create-component.js",
+    "cypress:open": "cypress open",
+    "cypress:e2e": "cypress run --spec cypress/e2e/**/*.cy.ts",
+    "cypress:e2e:server": "start-server-and-test dev http://localhost:3000 cypress:e2e",
+    "percy:cypress": "dotenv -e .env.local --percy exec -- cypress run --spec cypress/e2e/**/*.cy.ts"
+  },
+  "dependencies": {
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@percy/cli": "^1.31.8",
+    "@percy/cypress": "^3.1.7",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "cypress": "^15.11.0",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "start-server-and-test": "^2.1.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
