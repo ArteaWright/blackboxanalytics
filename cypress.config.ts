@@ -3,8 +3,8 @@ import { defineConfig } from "cypress";
 export default defineConfig({
   e2e: {
     video: false,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    setupNodeEvents(_on, config) {
+      return config;
     },
     allowCypressEnv: true,
     baseUrl: "http://localhost:3000",

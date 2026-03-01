@@ -23,12 +23,13 @@ function ensureDir(dir) {
 }
 
 function tsxBoilerplate(componentName) {
-  const cssFileName = `${componentName}.css`;
-  return `import styles from "./${cssFileName}";
+  const lowerName = componentName
+  .replace(/([a-z])([A-Z])/g, "$1-$2")
+  .toLowerCase();
 
-export default function ${componentName}() {
+  return `export default function ${componentName}() {
   return (
-    <div className={styles.wrapper}>
+    <div className="${lowerName}">
       <h2>${componentName}</h2>
       <p>Component content goes here.</p>
     </div>
@@ -37,24 +38,8 @@ export default function ${componentName}() {
 `;
 }
 
-function cssBoilerplate(componentName) {
-  const className = componentName.charAt(0).toLowerCase() + componentName.slice(1);
-  return `/* ${componentName} styles */
-
-.wrapper {
-  padding: 1rem;
-  border-radius: 0.5rem;
-}
-
-.wrapper h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-}
-
-.wrapper p {
-  margin: 0;
-  color: var(--foreground);
-}
+function cssBoilerplate() {
+  return `// Add your style here
 `;
 }
 
@@ -112,7 +97,7 @@ function main() {
   const componentName = getComponentNameFromArg();
   const componentDir = path.join(COMPONENTS_DIR, componentName);
   const tsxPath = path.join(componentDir, `${componentName}.tsx`);
-  const cssPath = path.join(componentDir, `${componentName}.module.css`);
+  const cssPath = path.join(componentDir, `${componentName}.css`);
   const cyTsxPath = path.join(componentDir, `${componentName}.cy.tsx`);
 
   if (fs.existsSync(tsxPath)) {

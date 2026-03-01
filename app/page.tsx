@@ -1,5 +1,7 @@
-export default function Home() {
+
+import ScaleMeter from "./components/ScaleMeter/ScaleMeter";export default function Home() {
   return (
-    <div className="home_container"></div>
+    <div className="home_container">
+      <ScaleMeter /></div>
   );
 }
