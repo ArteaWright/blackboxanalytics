@@ -1,6 +1,7 @@
 {
   "name": "blackboxanalytics",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +12,8 @@
     "cypress:open": "cypress open",
     "cypress:e2e": "cypress run --spec cypress/e2e/**/*.cy.ts",
     "cypress:e2e:server": "start-server-and-test dev http://localhost:3000 cypress:e2e",
-    "percy:cypress": "dotenv -e .env.local --percy exec -- cypress run --spec cypress/e2e/**/*.cy.ts"
+    "percy:cypress": "dotenv -e .env.local --percy exec -- cypress run --spec cypress/e2e/**/*.cy.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "next": "16.1.6",
@@ -19,8 +21,15 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
     "@percy/cli": "^1.31.8",
     "@percy/cypress": "^3.1.7",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/release-notes-generator": "^14.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -29,6 +38,8 @@
     "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "husky": "^9.1.7",
+    "semantic-release": "^25.0.3",
     "start-server-and-test": "^2.1.5",
     "tailwindcss": "^4",
     "typescript": "^5"

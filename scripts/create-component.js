@@ -1,5 +1,9 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const COMPONENTS_DIR = path.join(__dirname, "..", "app", "components");
 const PAGE_PATH = path.join(__dirname, "..", "app", "page.tsx");
@@ -24,8 +28,8 @@ function ensureDir(dir) {
 
 function tsxBoilerplate(componentName) {
   const lowerName = componentName
-  .replace(/([a-z])([A-Z])/g, "$1-$2")
-  .toLowerCase();
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .toLowerCase();
 
   return `export default function ${componentName}() {
   return (
@@ -61,30 +65,43 @@ function addComponentToPage(componentName) {
   const componentTag = `<${componentName} />`;
   let changed = false;
 
-  // Add import if not already present
   if (!content.includes(`from "./components/${componentName}/`)) {
     const lastImportMatch = content.match(/import .+ from .+;\n/g);
-    const lastImport = lastImportMatch ? lastImportMatch[lastImportMatch.length - 1] : null;
+    const lastImport = lastImportMatch
+      ? lastImportMatch[lastImportMatch.length - 1]
+      : null;
+
     const insertIndex = lastImport
       ? content.indexOf(lastImport) + lastImport.length
       : content.indexOf("export default");
-    content = content.slice(0, insertIndex) + "\n" + importLine + content.slice(insertIndex);
+
+    content =
+      content.slice(0, insertIndex) +
+      "\n" +
+      importLine +
+      content.slice(insertIndex);
+
     changed = true;
   }
 
-  // Add component to JSX if not already rendered
   if (!content.includes(componentTag)) {
     const openDivRegex = /return \(\s*<div[\s\S]*?>/;
     const divMatch = content.match(openDivRegex);
+
     if (divMatch) {
       const insertAt = content.indexOf(divMatch[0]) + divMatch[0].length;
-      content = content.slice(0, insertAt) + "\n      " + componentTag + content.slice(insertAt);
+      content =
+        content.slice(0, insertAt) +
+        "\n      " +
+        componentTag +
+        content.slice(insertAt);
     } else {
       content = content.replace(
         /return \(\s*<div/,
         `return (\n    <div>\n      ${componentTag}\n    <div`
       );
     }
+
     changed = true;
   }
 
@@ -96,6 +113,7 @@ function addComponentToPage(componentName) {
 function main() {
   const componentName = getComponentNameFromArg();
   const componentDir = path.join(COMPONENTS_DIR, componentName);
+
   const tsxPath = path.join(componentDir, `${componentName}.tsx`);
   const cssPath = path.join(componentDir, `${componentName}.css`);
   const cyTsxPath = path.join(componentDir, `${componentName}.cy.tsx`);
@@ -106,16 +124,20 @@ function main() {
   }
 
   ensureDir(componentDir);
+
   fs.writeFileSync(tsxPath, tsxBoilerplate(componentName), "utf8");
   fs.writeFileSync(cssPath, cssBoilerplate(componentName), "utf8");
   fs.writeFileSync(cyTsxPath, cyTsxBoilerplate(componentName), "utf8");
+
   addComponentToPage(componentName);
 
   console.log(`Created component: ${componentName}`);
   console.log(`  ${path.relative(process.cwd(), tsxPath)}`);
   console.log(`  ${path.relative(process.cwd(), cssPath)}`);
   console.log(`  ${path.relative(process.cwd(), cyTsxPath)}`);
-  console.log(`  Updated app/page.tsx to import and render <${componentName} />`);
+  console.log(
+    `  Updated app/page.tsx to import and render <${componentName} />`
+  );
 }
 
 main();
