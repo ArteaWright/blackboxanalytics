@@ -1,8 +1,9 @@
 
-import NewTest from "./components/NewTest/NewTest";export default function Home() {
+
+import Dashboard from "./components/Dashboard/Dashboard";export default function Home() {
   return (
     <div className="home_container">
-      <NewTest />
+      <Dashboard />
     </div>
   );
 }
