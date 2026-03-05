@@ -3,6 +3,9 @@ export default function NewTest() {
     <div className="new-test">
       <h2>NewTest</h2>
       <p>Component content goes here.</p>
+      <p>Component content goes here.</p>
+      <p>Component content goes here.</p>
+      <p>Component content goes here.</p>
     </div>
   );
 }
