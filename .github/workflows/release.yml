@@ -34,24 +34,40 @@ jobs:
 
       - run: npm ci
 
+      - name: Get tag before release
+        id: before
+        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo none)" >> $GITHUB_OUTPUT
+
       - name: Run semantic-release
-        id: semantic
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get latest release tag
-        id: tag
+      - name: Get tag after release
+        id: after
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
+      - name: Check if new release was created
+        id: release_check
+        run: |
+          if [ "${{ steps.before.outputs.tag }}" != "${{ steps.after.outputs.tag }}" ]; then
+            echo "released=true" >> $GITHUB_OUTPUT
+          else
+            echo "released=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install Vercel CLI
+        if: steps.release_check.outputs.released == 'true'
         run: npm install --global vercel
 
       - name: Pull Vercel Environment
+        if: steps.release_check.outputs.released == 'true'
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project
+        if: steps.release_check.outputs.released == 'true'
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
+        if: steps.release_check.outputs.released == 'true'
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
