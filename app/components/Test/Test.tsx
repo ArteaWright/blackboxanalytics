@@ -2,7 +2,7 @@ export default function Test() {
   return (
     <div className="test">
       <h2>Test</h2>
-      <p>Component content goes here.</p>
+      <p>This is a test component.</p>
     </div>
   );
 }
