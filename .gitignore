@@ -42,3 +42,10 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+# Local AI Agent Rules
+AGENTS.md
+**/Agents.md
+
+# Ignore cursor rules
+.cursor/rules/
