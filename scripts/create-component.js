@@ -43,7 +43,7 @@ function tsxBoilerplate(componentName) {
 }
 
 function cssBoilerplate() {
-  return `// Add your style here
+  return `/* Add your styles here */
 `;
 }
 
