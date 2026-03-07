@@ -1,6 +1,6 @@
+import Dashboard from "../components/Dashboard/Dashboard";
 
-
-import Dashboard from "./components/Dashboard/Dashboard";export default function Home() {
+export default function Home() {
   return (
     <div className="home_container">
       <Dashboard />
