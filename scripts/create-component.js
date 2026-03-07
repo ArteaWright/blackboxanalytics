@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const COMPONENTS_DIR = path.join(__dirname, "..", "app", "components");
+const COMPONENTS_DIR = path.join(__dirname, "..", "components");
 const PAGE_PATH = path.join(__dirname, "..", "app", "page.tsx");
 
 function getComponentNameFromArg() {
@@ -61,11 +61,11 @@ describe('<${componentName} />', () => {
 
 function addComponentToPage(componentName) {
   let content = fs.readFileSync(PAGE_PATH, "utf8");
-  const importLine = `import ${componentName} from "./components/${componentName}/${componentName}";`;
+  const importLine = `import ${componentName} from "../components/${componentName}/${componentName}";`;
   const componentTag = `<${componentName} />`;
   let changed = false;
 
-  if (!content.includes(`from "./components/${componentName}/`)) {
+  if (!content.includes(`from "../components/${componentName}/`)) {
     const lastImportMatch = content.match(/import .+ from .+;\n/g);
     const lastImport = lastImportMatch
       ? lastImportMatch[lastImportMatch.length - 1]
